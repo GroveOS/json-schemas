@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "schema design exchange",
+  "type": "object",
+  "description": "A compact exchange format for requesting and returning JSON Schema design work. Send a prose request in value with type 'draft' to receive concise prose clarification questions and recommendations. Send a prose request in value with type 'final' to request the completed JSON Schema. A final response uses type 'final' and returns that JSON Schema as the value object.",
+  "properties": {
+    "type": {},
+    "value": {}
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "type": {
+          "const": "draft",
+          "description": "A draft request or draft response. The value is prose: a request on input, or concise questions and recommendations on output."
+        },
+        "value": {
+          "type": "string",
+          "description": "Plain-text schema-design request, clarification questions, or recommendations."
+        }
+      },
+      "required": ["type", "value"]
+    },
+    {
+      "properties": {
+        "type": {
+          "const": "final",
+          "description": "A final request or final response. A request supplies prose as value; a response supplies the completed JSON Schema object as value."
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string",
+              "description": "Plain-text final request describing the schema to produce."
+            },
+            {
+              "$ref": "http://json-schema.org/draft-07/schema#",
+              "description": "The completed Draft-07 JSON Schema returned in response to a final request."
+            }
+          ]
+        }
+      },
+      "required": ["type", "value"]
+    }
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "type": "draft",
+      "value": "We need a schema for lesson inquiries. So far we collect date, student, age, contacts, and interests. What else should we consider?"
+    },
+    {
+      "type": "draft",
+      "value": "Clarify whether this record ends at intake or tracks follow-up. Consider an optional learner name, contacts referenced from contacts.json, availability, lesson goals, and a free-text notes field."
+    },
+    {
+      "type": "final",
+      "value": "Create a standalone Draft-07 schema for a lesson inquiry. It records the received date, an optional learner name, contacts using contacts.json, free-text interests, availability, and notes. It covers intake only."
+    },
+    {
+      "type": "final",
+      "value": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "example",
+        "type": "object",
+        "description": "A minimal example of a completed schema returned as a final response.",
+        "additionalProperties": false
+      }
+    }
+  ]
+}
