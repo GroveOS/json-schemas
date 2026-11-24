@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "contacts",
+  "type": "array",
+  "description": "A collection of contacts associated with a primary entity.",
+  "items": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the contact.",
+        "examples": [
+          "Jane Smith",
+          "María José García López",
+          "王小明",
+          "Eleanor",
+          "Community Workshop"
+        ]
+      },
+      "relation": {
+        "type": "string",
+        "description": "The nature of the contact's relationship to the primary entity.",
+        "examples": [
+          "self",
+          "parent",
+          "owner",
+          "administrator",
+          "maintainer",
+          "coordinator",
+          "neighbor",
+          "unknown"
+        ]
+      },
+      "level": {
+        "type": "string",
+        "enum": ["primary", "secondary"],
+        "description": "Relative priority of the contact. Multiple contacts may share the same level. Omit if unspecified."
+      },
+      "methods": {
+        "type": "array",
+        "description": "Known means of reaching the contact.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["phone", "email", "other"],
+              "description": "General classification of the contact method."
+            },
+            "value": {
+              "type": "string",
+              "description": "Information needed to reach the contact through this method, expressed as plain text without prescribed formatting.",
+              "examples": [
+                "+1 828 555 0100",
+                "(828) 555-0101",
+                "555-0102 ext. 204",
+                "+44 (0)20 7946 0958",
+                "contact@example.com",
+                "@example",
+                "https://example.com/contact",
+                "123 Maple Street, Asheville, NC",
+                "PO Box 123",
+                "The benches beside the fountain in the public park",
+                "The wooden noticeboard outside the community hall"
+              ]
+            },
+            "level": {
+              "type": "string",
+              "enum": ["primary", "secondary"],
+              "description": "Relative preference for this contact method. Multiple methods may share the same level. Omit if unspecified."
+            },
+            "notes": {
+              "type": "string",
+              "description": "Additional context, instructions, or limitations concerning this contact method.",
+              "examples": [
+                "Text messages preferred.",
+                "Shared office telephone.",
+                "Signal username.",
+                "Postal correspondence only.",
+                "Usually there between 2:00 and 5:00 PM on Fridays, weather permitting.",
+                "Leave a handwritten message on the noticeboard.",
+                "Knock twice on the blue door."
+              ]
+            }
+          },
+          "required": ["type", "value"],
+          "additionalProperties": false
+        }
+      },
+      "notes": {
+        "type": "string",
+        "description": "Additional information or context concerning the contact.",
+        "examples": [
+          "Generally available on weekday mornings.",
+          "Prefers communicating in person.",
+          "Only contact in emergencies."
+        ]
+      }
+    },
+    "required": ["name", "relation"],
+    "additionalProperties": false
+  }
+}
